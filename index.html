@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<script type="text/javascript">
+
+			google.charts.load('current', {'packages':['timeline']});
+
+			google.charts.setOnLoadCallback(drawGID);
+
+			function drawGID() {
+				var queryString = encodeURIComponent('SELECT C,D,E,G WHERE C is not null AND D is not null ORDER BY G');
+
+				var query = new google.visualization.Query(
+					'https://docs.google.com/spreadsheets/d/1aR3Dldfva5iqHXQLOX3YZ-TXZPD-4AiOxZ44AytiJ0w/gviz/tq?gid=836971347&headers=1&tq=' + queryString);
+				query.send(handleQueryResponse);
+			}
+
+			function handleQueryResponse(response) {
+				if (response.isError()) {
+					alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+					return;
+				}
+
+				var data = response.getDataTable();
+				var chart = new google.visualization.Timeline(document.getElementById('timeline'));
+				// data.addRow([ 'Today', 'Today', new Date(), new Date() ]);
+
+				var options = {
+
+				};
+
+				chart.draw(data, options);
+			}
+
+		</script>
+	</head>
+	<body style="font-family: Arial;border: 0 none;">
+		<div id="timeline" style="width: 100%; height: 100%;"></div>
+	</body>
+</html>
