@@ -8,8 +8,16 @@
 
 			google.charts.setOnLoadCallback(drawGID);
 
+			var date = new Date();
+
+			var day = date.getDate();
+			var month = date.getMonth() + 1;
+			var year = date.getFullYear();
+
+			var today = year + "," + month + "," + day;
+
 			function drawGID() {
-				var queryString = encodeURIComponent('SELECT C,D,E,G WHERE C is not null AND D is not null ORDER BY G');
+				var queryString = encodeURIComponent('SELECT C,D,E,G WHERE C is not null AND D is not null AND I is null ORDER BY G');
 
 				var query = new google.visualization.Query(
 					'https://docs.google.com/spreadsheets/d/1aR3Dldfva5iqHXQLOX3YZ-TXZPD-4AiOxZ44AytiJ0w/gviz/tq?gid=836971347&headers=1&tq=' + queryString);
@@ -24,10 +32,13 @@
 
 				var data = response.getDataTable();
 				var chart = new google.visualization.Timeline(document.getElementById('timeline'));
-				// data.addRow([ 'Today', 'Today', new Date(), new Date() ]);
+				// data.addRow([ 'Today', 'Today', new Date(), new Date() ]);   
 
 				var options = {
-
+					hAxis: {
+						minValue: new Date(today),
+						format: ('MMM d')
+					}
 				};
 
 				chart.draw(data, options);
