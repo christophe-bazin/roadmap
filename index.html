@@ -13,7 +13,7 @@
 			google.charts.setOnLoadCallback(drawGID);
 
 			function drawGID() {
-				var queryString = encodeURIComponent('SELECT C,D,E,G WHERE C is not null AND D is not null AND I is null ORDER BY G');
+				var queryString = encodeURIComponent('SELECT K,D,E,G WHERE C is not null AND D is not null AND I is null ORDER BY G');
 
 				var query = new google.visualization.Query(
 					'https://docs.google.com/spreadsheets/d/1aR3Dldfva5iqHXQLOX3YZ-TXZPD-4AiOxZ44AytiJ0w/gviz/tq?gid=836971347&headers=1&tq=' + queryString);
@@ -28,7 +28,7 @@
 
 				var data = response.getDataTable();
 				var chart = new google.visualization.Timeline(document.getElementById('timeline'));
-
+				
 				var options = {
 					hAxis: {
 						format: ('MMM d')
@@ -37,7 +37,6 @@
 
 				chart.draw(data, options);
 			}
-
 		</script>
 	</body>
 </html>
