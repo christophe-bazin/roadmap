@@ -7,6 +7,8 @@
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/css/foundation.min.css" />
+
 	</head>
 	<body>
 
@@ -14,9 +16,10 @@
 			<table id="trelloDatas">
 				<thead>
 					<tr>
-						<th>Id</th>
 						<th>Name</th>
 						<th>Url</th>
+						<th>Tags</th>
+						<th>Votes</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -35,7 +38,7 @@
 			var token = "159afbf454811016be493bce6978b565c52f0d2a6669a0d969e3db9d533ad060";
 			var board = "9TgrKdIZ";
 
-			var trelloUrl = "https://api.trello.com/1/boards/"+ board +"/cards?&key="+ key +"&token="+ token +"&fields=name,idList,url";
+			var trelloUrl = "https://api.trello.com/1/boards/"+ board +"/cards?key="+ key +"&token="+ token +"&fields=url,name,shortLink,idMembersVoted,labels";
 			console.log("Sortie de l'API Trello", trelloUrl);
 
 			$.ajax({
@@ -59,11 +62,18 @@
 			}
 
 			function drawRow(rowData) {
+
+				var labelsNames = (rowData.labels).map(function(label) {
+					return label.name
+					/*return label.name == "Improvement"*/
+				});
+
 				var row = $("<tr />")
 				$("#trelloDatas").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
-				row.append($("<td>" + rowData.id + "</td>"));
 				row.append($("<td>" + rowData.name + "</td>"));
-				row.append($("<td>" + rowData.url + "</td>"));
+				row.append($("<td><a href="+ rowData.url +" target=_blank>" + rowData.shortLink + "</a></td>"));
+				row.append($("<td>" + Object.values(labelsNames) +"</td>"));
+				row.append($("<td>" + Object.keys(rowData.idMembersVoted).length +"</td>"));
 			}
 		</script>
 	</body>
