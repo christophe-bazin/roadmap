@@ -1,0 +1,65 @@
+<!doctype html>
+<html class="no-js" lang="">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title></title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	</head>
+	<body>
+
+		<table id="trelloDatas">
+    		<tr>
+        		<th>Id</th>
+        		<th>Name</th>
+        		<th>Url</th>
+    		</tr>
+    	</table>
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="js/vendor/jquery-3.1.0.min.js"><\/script>')</script>
+
+		<script type"javascript">
+			// ignore this first line (its fidle mock) and it will return what ever you pass as json:... parameter... consider to change it to your ajax call
+
+			var key = "4ed75158af45aeeb2df0525d0af7e52c";
+			var token = "159afbf454811016be493bce6978b565c52f0d2a6669a0d969e3db9d533ad060";
+			var board = "9TgrKdIZ";
+
+			var trelloUrl = "https://api.trello.com/1/boards/"+ board +"/cards?&key="+ key +"&token="+ token +"&fields=name,idList,url";
+			console.log("Sortie de l'API Trello", trelloUrl);
+
+			$.ajax({
+				url: trelloUrl,
+				type: "get",
+				dataType: "json",
+				data: {
+					json: JSON.stringify(trelloUrl),
+					delay: 3
+				},
+				success: function(data, textStatus, jqXHR) {
+					// since we are using jQuery, you don't need to parse response
+					drawTable(data);
+				}
+			});
+
+			function drawTable(data) {
+				for (var i = 0; i < data.length; i++) {
+					drawRow(data[i]);
+				}
+			}
+
+			function drawRow(rowData) {
+				var row = $("<tr />")
+				$("#trelloDatas").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
+				row.append($("<td>" + rowData.id + "</td>"));
+				row.append($("<td>" + rowData.name + "</td>"));
+				row.append($("<td>" + rowData.url + "</td>"));
+			}
+
+		</script>
+	</body>
+</html>
+
